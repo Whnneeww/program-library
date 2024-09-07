@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioLibrary 使用ガイド（バージョン 0.1.0）</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>AudioLibrary 使用ガイド（バージョン 0.1.0）</h1>
+    <p>AudioLibraryは、音声ファイルを処理し、HAX形式のデータに変換するための便利なツールです。このライブラリの新機能について説明します。</p>
+
+    <h2>導入方法</h2>
+    <p>AudioLibraryを使用するには、以下のスクリプトをHTMLに追加します：</p>
+    <pre><code>&lt;script src="https://program-library.i-i.f5.si/js/audioLibrary/0.1.0.js"&gt;&lt;/script&gt;</code></pre>
+
+    <h2>基本的な使い方</h2>
+    
+    <h3>1. オーディオプロセッサの作成</h3>
+    <p>まず、<code>AudioProcessor</code>クラスのインスタンスを生成します。</p>
+    <pre><code>const audioProcessor = new AudioProcessor();</code></pre>
+
+    <h3>2. 音声ファイルの処理</h3>
+    <p>音声ファイルを選択して処理するためのイベントリスナーを追加します。</p>
+    <pre><code>
+document.getElementById('audioFileInput').addEventListener('change', async (event) =&gt; {
+    const file = event.target.files[0];
+    if (file) {
+        await audioProcessor.processAudioFile(file);
+        document.getElementById('playButton').disabled = false; // 再生ボタンを有効化
+    }
+});
+    </code></pre>
+
+    <h3>3. HAXデータの再生</h3>
+    <p>生成されたHAXデータを再生するためのボタンを設定します。</p>
+    <pre><code>
+document.getElementById('playButton').addEventListener('click', () =&gt; {
+    audioProcessor.playHAXData(audioProcessor.haxData);
+});
+    </code></pre>
+
+    <h3>4. 完全なサンプルコード</h3>
+    <p>以下は、AudioLibraryの使用方法を示す完全なサンプルコードです。</p>
+    <pre><code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;AudioLibrary Demo&lt;/title&gt;
+    &lt;script src="https://program-library.i-i.f5.si/js/audioLibrary/0.1.0.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;AudioLibrary Demo&lt;/h1&gt;
+    &lt;input type="file" id="audioFileInput" accept="audio/mp3" /&gt;
+    &lt;button id="playButton" disabled&gt;HAXデータを再生&lt;/button&gt;
+    
+    &lt;script&gt;
+        const audioProcessor = new AudioProcessor();
+
+        document.getElementById('audioFileInput').addEventListener('change', async (event) =&gt; {
+            const file = event.target.files[0];
+            if (file) {
+                await audioProcessor.processAudioFile(file);
+                document.getElementById('playButton').disabled = false; // 再生ボタンを有効化
+            }
+        });
+
+        document.getElementById('playButton').addEventListener('click', () =&gt; {
+            audioProcessor.playHAXData(audioProcessor.haxData);
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+    </code></pre>
+
+    <h2>注意事項</h2>
+    <p>ライブラリのバージョンによっては、APIの仕様が変わる可能性があります。最新のドキュメントを確認してください。</p>
+
+    <h2>まとめ</h2>
+    <p>AudioLibraryを利用することで、音声ファイルの処理がより簡素化されました。疑問点があれば、いつでも質問してくださいね！</p>
+
+    <footer>
+        <hr>
+        <p>最終更新日: 2023年10月2日 (バージョン: 0.1.0)</p>
+        <p>作成: <a href="https://gpt-bot.userlocal.jp/bot/d129ee7c">ユーザーからのリクエスト</a></p>
+    </footer>
+</body>
+</html>
