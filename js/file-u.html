@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileHandler 使用方法ドキュメント</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            color: #333;
+        }
+        code {
+            background-color: #e7e7e7;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        pre {
+            background-color: #e7e7e7;
+            padding: 10px;
+            border-radius: 3px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>FileHandler 使用方法ドキュメント</h1>
+
+    <p>このドキュメントでは、<code>FileHandler</code> ライブラリの使い方を説明します。<code>FileHandler</code> は、ブラウザでファイルを選択し、そのファイルの内容を様々な形式で読み取るためのライブラリです。</p>
+
+    <h2>1. ライブラリの読み込み</h2>
+    <pre>
+<script>
+const FileHandler = (() => {
+    const handleFile = async (file, format) => {
+        // ここに先ほどのhandleFileのコード
+    }
+
+    const openFileDialog = async (extension = '.txt', format = 'text') => {
+        // ここに先ほどのopenFileDialogのコード
+    }
+
+    return {
+        openFileDialog
+    };
+})();
+</script>
+    </pre>
+
+    <h2>2. 使用方法</h2>
+    <p><code>FileHandler.openFileDialog</code> メソッドを呼び出すことでファイルダイアログを開きます。引数としてファイルの拡張子と読み込む形式を指定できます。</p>
+
+    <h3>使用例:</h3>
+    <pre>
+<script>
+async function startFileDialog() {
+    // .txtファイルをテキスト形式で読み込む
+    await FileHandler.openFileDialog('.txt', 'text');
+}
+
+// ボタンをクリックでファイルダイアログを開く
+const button = document.createElement('button');
+button.textContent = 'ファイルを選択';
+button.onclick = startFileDialog;
+document.body.appendChild(button);
+</script>
+    </pre>
+
+    <h2>3. 引数の説明</h2>
+    <ul>
+        <li><strong>extension:</strong> ファイルの拡張子 (デフォルトは <code>.txt</code>)</li>
+        <li><strong>format:</strong> 読み込み形式 (デフォルトは <code>text</code>)
+            <ul>
+                <li><code>dataurl</code>: Data URL形式で読み込む</li>
+                <li><code>text</code>: テキスト形式で読み込む</li>
+                <li><code>binary</code>: バイナリデータ形式で読み込む</li>
+                <li><code>hex</code>: ヘックス形式で読み込む</li>
+                <li><code>binaryString</code>: バイナリ文字列形式で読み込む</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>4. 注意点</h2>
+    <p>このライブラリは、ブラウザのファイルPicker APIを使用しています。対応しているブラウザでのみ機能します。</p>
+
+</body>
+</html>
