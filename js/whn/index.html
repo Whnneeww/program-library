@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whnライブラリ 使用ガイド</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 4px; }
+    </style>
+    <script src="https://program-library.i-i.f5.si/js/whn/0.0.2-a.js"></script>
+</head>
+<body>
+
+    <h1>Whnライブラリ 使用ガイド</h1>
+    <p>Whnライブラリは、ファイルのアーカイブ作成を簡単に行うための便利なツールです。以下では、このライブラリの基本的な使い方を説明します。</p>
+
+    <h2>導入方法</h2>
+    <p>Whnライブラリを使用するには、以下のスクリプトをHTMLに追加します：</p>
+    <pre><code>&lt;script src="https://program-library.i-i.f5.si/js/whn/0.0.2-a.js"&gt;&lt;/script&gt;</code></pre>
+
+    <h2>基本的な使い方</h2>
+    
+    <h3>1. アーカイブオブジェクトの作成</h3>
+    <p>アーカイブを作成するために、まず<code>WhnneewwArchive</code>クラスのインスタンスを生成します。</p>
+    <pre><code>const archive = new WhnneewwArchive();</code></pre>
+
+    <h3>2. ファイルの追加</h3>
+    <p>ファイルをアーカイブに追加するには、<code>addFile</code>メソッドを使用します。</p>
+    <pre><code>archive.addFile(file); // 'file'はFileオブジェクト</code></pre>
+
+    <h3>3. アーカイブの保存</h3>
+    <p>すべてのファイルを追加したら、<code>save</code>メソッドを使ってアーカイブを保存します。</p>
+    <pre><code>archive.save('myArchive.zip');</code></pre>
+
+    <h3>4. 完全なサンプルコード</h3>
+    <p>以下は、ユーザーが選択したファイルをアーカイブにまとめてダウンロードするサンプルコードです。</p>
+    
+    <pre><code>
+    &lt;!DOCTYPE html&gt;
+    &lt;html lang="ja"&gt;
+    &lt;head&gt;
+        &lt;meta charset="UTF-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+        &lt;title&gt;ファイルアーカイブツール&lt;/title&gt;
+        &lt;script src="https://program-library.i-i.f5.si/js/whn/0.0.2-a.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;ファイルアーカイブツール&lt;/h1&gt;
+        &lt;input type="file" id="fileInput" multiple /&gt;
+        &lt;button id="createArchive"&gt;アーカイブ作成&lt;/button&gt;
+
+        &lt;script&gt;
+            const fileInput = document.getElementById('fileInput');
+            const createArchiveButton = document.getElementById('createArchive');
+
+            let filesToArchive = [];
+
+            fileInput.addEventListener('change', (event) =&gt; {
+                filesToArchive = [...event.target.files];
+            });
+
+            createArchiveButton.addEventListener('click', () =&gt; {
+                const archive = new WhnneewwArchive();
+                filesToArchive.forEach(file =&gt; {
+                    archive.addFile(file);
+                });
+                archive.save('myArchive.zip');
+                alert('アーカイブが作成されました！');
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    </code></pre>
+
+    <h2>注意事項</h2>
+    <p>ライブラリのバージョンによっては、APIの仕様が変わる可能性があります。最新のドキュメントを確認してください。</p>
+
+    <h2>まとめ</h2>
+    <p>Whnライブラリを利用することで、ファイルのアーカイブ作成がシンプルになります。問題があれば、いつでも質問してくださいね！</p>
+
+</body>
+</html>
