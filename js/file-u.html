@@ -33,22 +33,9 @@
     <p>このドキュメントでは、<code>FileHandler</code> ライブラリの使い方を説明します。<code>FileHandler</code> は、ブラウザでファイルを選択し、そのファイルの内容を様々な形式で読み取るためのライブラリです。</p>
 
     <h2>1. ライブラリの読み込み</h2>
+    <p>CDNからライブラリを読み込むには、次のスクリプトをHTMLに追加します:</p>
     <pre>
-<script>
-const FileHandler = (() => {
-    const handleFile = async (file, format) => {
-        // ここに先ほどのhandleFileのコード
-    }
-
-    const openFileDialog = async (extension = '.txt', format = 'text') => {
-        // ここに先ほどのopenFileDialogのコード
-    }
-
-    return {
-        openFileDialog
-    };
-})();
-</script>
+<script src="https://program-library.i-i.f5.si/js/file-u0.2.js"></script>
     </pre>
 
     <h2>2. 使用方法</h2>
