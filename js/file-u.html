@@ -44,18 +44,7 @@
 
     <h3>使用例:</h3>
     <pre>
-<script>
-async function startFileDialog() {
-    // .txtファイルをテキスト形式で読み込む
-    await FileHandler.openFileDialog('.txt', 'text');
-}
-
-// ボタンをクリックでファイルダイアログを開く
-const button = document.createElement('button');
-button.textContent = 'ファイルを選択';
-button.onclick = startFileDialog;
-document.body.appendChild(button);
-</script>
+&lt;script&gt; async function startFileDialog() { // .txtファイルをテキスト形式で読み込む await FileHandler.openFileDialog('.txt', 'text'); }  // ボタンをクリックでファイルダイアログを開く const button = document.createElement('button'); button.textContent = 'ファイルを選択'; button.onclick = startFileDialog; document.body.appendChild(button); &lt;/script&gt;
     </pre>
 
     <h2>3. 引数の説明</h2>
