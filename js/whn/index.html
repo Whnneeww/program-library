@@ -3,83 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whnライブラリ 使用ガイド</title>
+    <title>Whnライブラリ 使用ガイド（新バージョン）</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         h1, h2, h3 { color: #333; }
         code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
         pre { background-color: #f4f4f4; padding: 10px; border-radius: 4px; }
     </style>
-    <script src="https://program-library.i-i.f5.si/js/whn/0.0.2-a.js"></script>
 </head>
 <body>
-
-    <h1>Whnライブラリ 使用ガイド</h1>
-    <p>Whnライブラリは、ファイルのアーカイブ作成を簡単に行うための便利なツールです。以下では、このライブラリの基本的な使い方を説明します。</p>
+    <h1>Whnライブラリ 使用ガイド（新バージョン）</h1>
+    <p>Whnライブラリは、ファイルとフォルダーの管理を簡単に行うための便利なツールです。このライブラリの新機能について説明します。</p>
 
     <h2>導入方法</h2>
     <p>Whnライブラリを使用するには、以下のスクリプトをHTMLに追加します：</p>
-    <pre><code>&lt;script src="https://program-library.i-i.f5.si/js/whn/0.0.2-a.js"&gt;&lt;/script&gt;</code></pre>
+    <pre><code>&lt;script src="https://program-library.i-i.f5.si/js/whn/2.0.1.js"&gt;&lt;/script&gt;</code></pre>
 
     <h2>基本的な使い方</h2>
-    
-    <h3>1. アーカイブオブジェクトの作成</h3>
-    <p>アーカイブを作成するために、まず<code>WhnneewwArchive</code>クラスのインスタンスを生成します。</p>
-    <pre><code>const archive = new WhnneewwArchive();</code></pre>
 
-    <h3>2. ファイルの追加</h3>
-    <p>ファイルをアーカイブに追加するには、<code>addFile</code>メソッドを使用します。</p>
-    <pre><code>archive.addFile(file); // 'file'はFileオブジェクト</code></pre>
+    <h3>1. アイテムの作成</h3>
+    <p>新しいアイテムを作成するために、<code>WhneewwItem</code>クラスのインスタンスを生成します。</p>
+    <pre><code>const item = new WhneewwItem("アイテム名", "タイプ");</code></pre>
 
-    <h3>3. アーカイブの保存</h3>
-    <p>すべてのファイルを追加したら、<code>save</code>メソッドを使ってアーカイブを保存します。</p>
-    <pre><code>archive.save('myArchive.zip');</code></pre>
+    <h3>2. アーカイブの作成</h3>
+    <p>アイテムの配列からアーカイブを作成するには、以下のようにします。</p>
+    <pre><code>const blob = WhneewwArchive.create([item1, item2]);</code></pre>
 
-    <h3>4. 完全なサンプルコード</h3>
-    <p>以下は、ユーザーが選択したファイルをアーカイブにまとめてダウンロードするサンプルコードです。</p>
-    
+    <h3>3. アーカイブの抽出</h3>
+    <p>アーカイブを抽出するには、<code>extract</code>メソッドを使用します。</p>
+    <pre><code>WhneewwArchive.extract(blob).then(items =&gt; { /* アイテムを処理する */ });</code></pre>
+
+    <h3>4. フォルダの操作</h3>
+    <p>フォルダの追加、削除、名前変更が簡単にできます。</p>
     <pre><code>
-    &lt;!DOCTYPE html&gt;
-    &lt;html lang="ja"&gt;
-    &lt;head&gt;
-        &lt;meta charset="UTF-8"&gt;
-        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-        &lt;title&gt;ファイルアーカイブツール&lt;/title&gt;
-        &lt;script src="https://program-library.i-i.f5.si/js/whn/0.0.2-a.js"&gt;&lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;h1&gt;ファイルアーカイブツール&lt;/h1&gt;
-        &lt;input type="file" id="fileInput" multiple /&gt;
-        &lt;button id="createArchive"&gt;アーカイブ作成&lt;/button&gt;
+const rootFolder = new WhneewwItem('Root', 'folder');
+WhneewwArchive.addFolder(rootFolder, 'NewFolder');
+WhneewwArchive.renameFolder(rootFolder, 'NewFolder', 'RenamedFolder');
+WhneewwArchive.deleteFolder(rootFolder, 'RenamedFolder');
+</code></pre>
 
-        &lt;script&gt;
-            const fileInput = document.getElementById('fileInput');
-            const createArchiveButton = document.getElementById('createArchive');
-
-            let filesToArchive = [];
-
-            fileInput.addEventListener('change', (event) =&gt; {
-                filesToArchive = [...event.target.files];
-            });
-
-            createArchiveButton.addEventListener('click', () =&gt; {
-                const archive = new WhnneewwArchive();
-                filesToArchive.forEach(file =&gt; {
-                    archive.addFile(file);
-                });
-                archive.save('myArchive.zip');
-                alert('アーカイブが作成されました！');
-            });
-        &lt;/script&gt;
-    &lt;/body&gt;
-    &lt;/html&gt;
-    </code></pre>
+    <h3>5. 完全なサンプルコード</h3>
+    <p>以下は新バージョンの機能を活用したサンプルコードです。</p>
+    <pre><code>
+const rootFolder = new WhneewwItem('Root', 'folder');
+const addFolderResult = WhneewwArchive.addFolder(rootFolder, 'NewFolder');
+console.log(addFolderResult.success ? 'フォルダー追加成功' : addFolderResult.message);
+const renameFolderResult = WhneewwArchive.renameFolder(rootFolder, 'NewFolder', 'RenamedFolder');
+console.log(renameFolderResult.success ? 'フォルダー名称変更成功' : renameFolderResult.message);
+const deleteFolderResult = WhneewwArchive.deleteFolder(rootFolder, 'RenamedFolder');
+console.log(deleteFolderResult.success ? 'フォルダー削除成功' : deleteFolderResult.message);
+console.log('ルートフォルダーの内容:', rootFolder.children);
+</code></pre>
 
     <h2>注意事項</h2>
     <p>ライブラリのバージョンによっては、APIの仕様が変わる可能性があります。最新のドキュメントを確認してください。</p>
 
     <h2>まとめ</h2>
-    <p>Whnライブラリを利用することで、ファイルのアーカイブ作成がシンプルになります。問題があれば、いつでも質問してくださいね！</p>
+    <p>Whnライブラリを利用することで、ファイルとフォルダーの管理がより簡素化されました。疑問点があれば、いつでも質問してくださいね！</p>
 
+    <footer>
+        <hr>
+        <p>最終更新日: 2023年10月2日 (バージョン: 2.0.1)</p>
+    </footer>
 </body>
 </html>
