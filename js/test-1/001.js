@@ -32,12 +32,12 @@
         element.addEventListener('click', toggleVisibility);
     };
 
+    // 自動的にWhnspirを初期化
+    document.addEventListener('DOMContentLoaded', () => {
+        const whnspirElements = document.querySelectorAll('whnspir');
+        whnspirElements.forEach(whnspirElement => new whnspir(whnspirElement));
+    });
+
     // グローバルオブジェクトに登録
     window.Whnspir = whnspir;
 })();
-
-// 使用方法
-document.addEventListener('DOMContentLoaded', () => {
-    const whnspirElement = document.querySelector('whnspir');
-    new Whnspir(whnspirElement); // 使用する際に用います
-});
