@@ -17,7 +17,8 @@
                 transition: color 0.3s ease;
             }
             whnspir.show {
-                background-color: transparent;
+            color: black;
+            background-color: #fafafa;
             }
         `;
         document.head.appendChild(style);
