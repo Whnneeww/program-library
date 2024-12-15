@@ -11,13 +11,13 @@
         const style = document.createElement('style');
         style.innerHTML = `
             whnspir {
-                color: black;
+                color: transparent; /* 最初は透明 */
+                background-color: black; /* 背景は黒 */
                 cursor: pointer;
                 transition: color 0.3s ease;
             }
             whnspir.show {
-                color: transparent;
-                background-color: black;
+                color: black; /* クリック時に文字を表示 */
             }
         `;
         document.head.appendChild(style);
