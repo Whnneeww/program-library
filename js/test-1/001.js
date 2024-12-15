@@ -17,7 +17,6 @@
                 transition: color 0.3s ease;
             }
             whnspir.show {
-                color: black; /* クリック時に文字を表示 */
                 background-color: transparent;
             }
         `;
