@@ -12,7 +12,7 @@
         style.innerHTML = `
             whnspir {
                 color: transparent; /* 最初は透明 */
-                background-color: black; /* 背景は黒 */
+                background-color: #000112; /* 背景は黒 */
                 cursor: pointer;
                 transition: color 0.3s ease;
             }
