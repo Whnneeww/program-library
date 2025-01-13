@@ -8,6 +8,7 @@ const whnscript = (() => {
             return parseFloat(a) + parseFloat(b);
         },
         var: function(name, value) {
+            alert(name);
             this.variables[name] = value;
         },
         isTrue: function(condition) {
