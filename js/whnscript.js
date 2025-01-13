@@ -1,26 +1,26 @@
 const whnscript = (() => {
     const builtInFunctions = {
         variables: {},
-        gv: function(name) {
+        gv: function (name) {
             return this.variables[name] !== undefined ? this.variables[name] : null;
         },
-        addNumbers: function(a, b) {
+        addNumbers: function (a, b) {
             return parseFloat(a) + parseFloat(b);
         },
-        var: function(name, value) {
+        var: function (name, value) {
             this.variables[name] = value;
         },
-        isTrue: function(condition) {
+        isTrue: function (condition) {
             return condition.toLowerCase() === 'true';
         },
-        alert: function(alerttxt) {
+        alert: function (alerttxt) {
             alert(alerttxt);
         },
-        playSound: function(soundUrl) {
+        playSound: function (soundUrl) {
             const audio = new Audio(soundUrl);
             return audio.play().then(() => null).catch(error => error.message);
         },
-        playSoundraw: function(soundData) {
+        playSoundraw: function (soundData) {
             const blob = new Blob([soundData], { type: 'audio/mpeg' });
             const url = URL.createObjectURL(blob);
             const audio = new Audio(url);
@@ -33,15 +33,12 @@ const whnscript = (() => {
 
     const processParams = (params) => {
         return params.map(param => {
-            // 引数がクオートで囲まれている場合はテキストとして扱う
             if (param.startsWith('"') && param.endsWith('"')) {
-                return param.slice(1, -1); // クオートを削除
+                return param.slice(1, -1);
             } else if (builtInFunctions[param]) {
-                // 引数が関数名であれば、その関数を実行
-                return builtInFunctions[param](); // パラメータ加工せずに呼び出す
+                return builtInFunctions[param]();
             } else {
-                // 変数名として扱う
-                return builtInFunctions.gv(param) !== undefined ? builtInFunctions.gv(param) : null; // 変数名が無ければnull
+                return builtInFunctions.gv(param) !== undefined ? builtInFunctions.gv(param) : null;
             }
         });
     };
@@ -49,7 +46,7 @@ const whnscript = (() => {
     const runWhnScript = (code) => {
         const functionPattern = /(\w+)\[(.*?)\]/g;
         const ifPattern = /if\[(.*?)\]t\{(.*?)\}f\{(.*?)\}/g;
-        const varsPattern = /vars\["(.*?)"\]\{(.*?)\}/g; // 新しいパターンを追加
+        const varsPattern = /vars\["(.*?)"\]\{(.*?)\}/g;
 
         // vars文の処理
         let match;
@@ -58,8 +55,8 @@ const whnscript = (() => {
             const codeToExecute = match[2].trim();
 
             // コードを実行し、変数に代入
-            const result = runWhnScript(codeToExecute); // コードの実行結果を取得
-            builtInFunctions.var(varName, result); // 変数に代入
+            const result = runWhnScript(codeToExecute);
+            builtInFunctions.var(varName, result);
         }
 
         // if文の処理
@@ -80,14 +77,15 @@ const whnscript = (() => {
         while ((match = functionPattern.exec(code)) !== null) {
             const functionName = match[1];
             const params = match[2].split(',').map(param => param.trim());
-            const processedParams = processParams(params); // パラメータを処理
+            const processedParams = processParams(params);
 
             if (builtInFunctions[functionName]) {
-                builtInFunctions[functionName](...processedParams); // ここで変数を渡す
+                return builtInFunctions[functionName](...processedParams); // 結果を返す
             } else {
                 console.error(`関数 '${functionName}' は定義されていません。`);
             }
         }
+        return null; // デフォルトでnullを返す
     };
 
     const loadExternalScript = (src) => {
