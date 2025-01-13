@@ -33,12 +33,15 @@ const whnscript = (() => {
 
     const processParams = (params) => {
         return params.map(param => {
-            // マルチクオートがある場合にはテキストとして扱う
+            // 引数がクオートで囲まれている場合はテキストとして扱う
             if (param.startsWith('"') && param.endsWith('"')) {
                 return param.slice(1, -1); // クオートを削除
+            } else if (builtInFunctions[param]) {
+                // 引数が関数名であれば、その関数を実行
+                return builtInFunctions[param](); // パラメータ加工せずに呼び出す
             } else {
                 // 変数名として扱う
-                return builtInFunctions.gv(param); // 変数名が無ければnull
+                return builtInFunctions.gv(param) !== undefined ? builtInFunctions.gv(param) : null; // 変数名が無ければnull
             }
         });
     };
