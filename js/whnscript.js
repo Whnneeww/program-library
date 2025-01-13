@@ -49,9 +49,20 @@ const whnscript = (() => {
     const runWhnScript = (code) => {
         const functionPattern = /(\w+)\[(.*?)\]/g;
         const ifPattern = /if\[(.*?)\]t\{(.*?)\}f\{(.*?)\}/g;
+        const varsPattern = /vars\["(.*?)"\]\{(.*?)\}/g; // 新しいパターンを追加
+
+        // vars文の処理
+        let match;
+        while ((match = varsPattern.exec(code)) !== null) {
+            const varName = match[1].trim();
+            const codeToExecute = match[2].trim();
+
+            // コードを実行し、変数に代入
+            const result = runWhnScript(codeToExecute); // コードの実行結果を取得
+            builtInFunctions.var(varName, result); // 変数に代入
+        }
 
         // if文の処理
-        let match;
         while ((match = ifPattern.exec(code)) !== null) {
             const condition = match[1].trim();
             const trueCode = match[2].trim();
