@@ -14,6 +14,9 @@ const whnscript = (() => {
         isTrue: function(condition) {
             return condition.toLowerCase() === 'true';
         },
+        alert: function(alerttxt) {
+            alert(alerttxt);
+        },
         playSound: function(soundUrl) {
             const audio = new Audio(soundUrl);
             return audio.play().then(() => null).catch(error => error.message);
