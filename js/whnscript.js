@@ -1,9 +1,8 @@
 const whnscript = (() => {
     const builtInFunctions = {
-//下定義
         variables: {},
         gv: function(name) {
-            return this.variables[name] !== undefined ? this.variables[name] : null; 
+            return this.variables[name] !== undefined ? this.variables[name] : null;
         },
         addNumbers: function(a, b) {
             return parseFloat(a) + parseFloat(b);
@@ -30,15 +29,27 @@ const whnscript = (() => {
                 return null;
             }).catch(error => error.message);
         }
-//上定義
     };
 
     const runWhnScript = (code) => {
         const functionPattern = /(\w+)\[(.*?)\]/g;
         const ifPattern = /if\[(.*?)\]t\{(.*?)\}f\{(.*?)\}/g;
 
-        let match;
+        const processParams = (params) => {
+            return params.map(param => {
+                // マルチクオートがある場合にはテキストとして扱う
+                if (param.startsWith('"') && param.endsWith('"')) {
+                    return param.slice(1, -1); // クオートを削除
+                } else {
+                    // 変数名として扱う
+                    return builtInFunctions.variables[param] !== undefined ? builtInFunctions.variables[param] : null; // 変数名が無ければnull
+                }
+            });
+        };
 
+        let match;
+        
+        // if文の処理
         while ((match = ifPattern.exec(code)) !== null) {
             const condition = match[1].trim();
             const trueCode = match[2].trim();
@@ -52,11 +63,14 @@ const whnscript = (() => {
             }
         }
 
+        // 関数呼び出しの処理
         while ((match = functionPattern.exec(code)) !== null) {
             const functionName = match[1];
             const params = match[2].split(',').map(param => param.trim());
+            const processedParams = processParams(params); // パラメータを処理
+
             if (builtInFunctions[functionName]) {
-                builtInFunctions[functionName](...params);
+                builtInFunctions[functionName](...processedParams);
             } else {
                 console.error(`関数 '${functionName}' は定義されていません。`);
             }
@@ -80,15 +94,14 @@ const whnscript = (() => {
             if (src) {
                 try {
                     await loadExternalScript(src);
-                    // スクリプトが読み込まれたら、次に内容を実行
-                    const externalScriptResponse = await fetch(src); // スクリプトをフェッチ
-                    const code = await externalScriptResponse.text(); // スクリプトの内容を取得
-                    runWhnScript(code); // その内容を実行
+                    const externalScriptResponse = await fetch(src);
+                    const code = await externalScriptResponse.text();
+                    runWhnScript(code);
                 } catch (error) {
                     console.error(error.message);
                 }
             } else {
-                runWhnScript(script.textContent); // srcが指定されていない場合
+                runWhnScript(script.textContent);
             }
         }
     };
