@@ -31,25 +31,24 @@ const whnscript = (() => {
         }
     };
 
+    const processParams = (params) => {
+        return params.map(param => {
+            // マルチクオートがある場合にはテキストとして扱う
+            if (param.startsWith('"') && param.endsWith('"')) {
+                return param.slice(1, -1); // クオートを削除
+            } else {
+                // 変数名として扱う
+                return builtInFunctions.gv(param); // 変数名が無ければnull
+            }
+        });
+    };
+
     const runWhnScript = (code) => {
         const functionPattern = /(\w+)\[(.*?)\]/g;
         const ifPattern = /if\[(.*?)\]t\{(.*?)\}f\{(.*?)\}/g;
 
-        const processParams = (params) => {
-            return params.map(param => {
-                // マルチクオートがある場合にはテキストとして扱う
-                if (param.startsWith('"') && param.endsWith('"')) {
-                    return param.slice(1, -1); // クオートを削除
-                } else {
-                    // 変数名として扱う
-                    return builtInFunctions.variables[param] !== undefined ? builtInFunctions.variables[param] : null; // 変数名が無ければnull
-                }
-            });
-        };
-
-        let match;
-        
         // if文の処理
+        let match;
         while ((match = ifPattern.exec(code)) !== null) {
             const condition = match[1].trim();
             const trueCode = match[2].trim();
@@ -70,7 +69,7 @@ const whnscript = (() => {
             const processedParams = processParams(params); // パラメータを処理
 
             if (builtInFunctions[functionName]) {
-                builtInFunctions[functionName](...processedParams);
+                builtInFunctions[functionName](...processedParams); // ここで変数を渡す
             } else {
                 console.error(`関数 '${functionName}' は定義されていません。`);
             }
